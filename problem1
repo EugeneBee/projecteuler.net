@@ -1,0 +1,8 @@
+#Python 3.7.4
+#https://projecteuler.net/problem=1
+"""
+There is a deliberate logical error in the code. 
+Do you understand Python for a long time to find her
+"""
+print('Result of the problem 1:', sum([num for num in range(1,1000) 
+if num % 3 != 0 or num % 5 != 0]))
