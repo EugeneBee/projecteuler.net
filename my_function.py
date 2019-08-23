@@ -27,3 +27,17 @@ def sum_divis(num):
             if int(num/i) not in ms:
                 ms.append(int(num/i))
     return ms
+
+def divisibility_num_by_all_in_tuple(num,arry):
+    """
+    returns true if the number is divisible without remainder 
+    by all elements of turtle otherwise false
+    """
+    #import code:
+    # from my_function import divisibility_num_by_all_in_tuple
+    for i in arry:
+        if num % i == 0:
+            continue
+        else:
+            return False
+    return True  
