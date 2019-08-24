@@ -40,4 +40,13 @@ def divisibility_num_by_all_in_tuple(num,arry):
             continue
         else:
             return False
-    return True  
+    return True
+
+def eng_letter_to_num(let):
+    '''
+    returns the serial number of a letter in the eng alphabet
+    '''
+    #import code:
+    # from my_function import eng_letter_to_num
+    strng = 'abcdefghijklmnopqrstuvwxyz'
+    return (strng.index((let.casefold()))+1)
