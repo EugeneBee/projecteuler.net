@@ -35,4 +35,4 @@ for x in range(1,itrtn):
         product *=  int(z)
         if product > maxx:
             maxx = product
-print(maxx)
+print('Result of the problem 8:', maxx)
