@@ -50,3 +50,15 @@ def eng_letter_to_num(let):
     # from my_function import eng_letter_to_num
     strng = 'abcdefghijklmnopqrstuvwxyz'
     return (strng.index((let.casefold()))+1)
+
+def route_table(table_size):
+    '''
+    returns the maximum number of bidirectional routes 
+    for an equilateral table table_size x table_size nodes.
+    '''
+    L = [1] * table_size
+    for i in range(table_size):
+        for j in range(i):
+            L[j] = L[j]+L[j-1]
+        L[i] = 2 * L[i - 1]
+    return L[table_size - 1]
