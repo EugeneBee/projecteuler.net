@@ -1,4 +1,4 @@
-#Python 3.7.4
+#Python 3.x
 
 def primes_list_bw(num):
     """returns a list of primes to the accepted number"""
@@ -41,7 +41,6 @@ def divisibility_num_by_all_in_tuple(num,arry):
         else:
             return False
     return True
-
 def eng_letter_to_num(let):
     '''
     returns the serial number of a letter in the eng alphabet
@@ -56,9 +55,29 @@ def route_table(table_size):
     returns the maximum number of bidirectional routes 
     for an equilateral table table_size x table_size nodes.
     '''
+    #import code:
+    # from my_function import route_table
     L = [1] * table_size
     for i in range(table_size):
         for j in range(i):
             L[j] = L[j]+L[j-1]
         L[i] = 2 * L[i - 1]
     return L[table_size - 1]
+
+def factorization(num):
+    """
+    returns a list of factors of a number, 
+    not including the number itself
+    """
+    #import code:
+    # from my_function import factorization
+    result = []
+    i = 2
+    while i < num:
+        if num % i == 0:
+            num /= i
+            result.append(i)
+        else:
+            i += 1
+    result.append(int(num))
+    return result
