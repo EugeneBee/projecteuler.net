@@ -81,3 +81,13 @@ def factorization(num):
             i += 1
     result.append(int(num))
     return result
+def sumdivis(num):
+    """returns sum factors of a number"""
+    #import code:
+    # from my_function import sumdivis
+    sum_arry = {1}
+    for i in range(2,int(num**0.5)+1):
+        if num % i == 0:
+            sum_arry.add(i)
+            sum_arry.add(int(num/i))
+    return sum(sum_arry)
