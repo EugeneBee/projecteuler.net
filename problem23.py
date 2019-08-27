@@ -11,4 +11,4 @@ for i in arry:
     for b in arry:
         arry_set.add(i+b)
 tmp_arry = set([z for z in range(1, 28124)]) - arry_set
-print(sum(tmp_arry))
+print('Result of the problem 23:', sum(tmp_arry))
