@@ -12,4 +12,4 @@ for a in range(2,194980):
 		s += int(st[i])**5
 	if a != s:
 		summ += a
-print(summ)
+print('Result of the problem 30:', summ)
