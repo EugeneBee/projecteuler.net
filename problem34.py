@@ -1,5 +1,5 @@
 #Python 3.7.x
-#https://projecteuler.net/problem=1
+#https://projecteuler.net/problem=34
 """
 There is a deliberate logical error in the code. 
 Do you understand Python for a long time to find her.
