@@ -12,5 +12,5 @@ for i in range(1,num):
 	arry6.add(i*(2*i-1))
 for x in range(285,num-1):
 	if arry3[x] not in arry6 and arry5:
-			result = arry3[x]
+		result = arry3[x]
 print('Result of the problem 45:', result)
