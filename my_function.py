@@ -91,3 +91,43 @@ def sumdivis(num):
             sum_arry.add(i)
             sum_arry.add(int(num/i))
     return sum(sum_arry)
+def summ_factorial_num(num):
+    """
+    returns the sum of factorials from 1 to num inclusive
+    """
+    # from my_function import summ_factorial_num
+    from math import factorial
+    summ = 0
+    st = str(num)
+    for i in st:
+        summ += factorial(int(i))
+    return summ
+
+from math import sqrt
+from itertools import count, islice
+
+def isPrime(num):
+    """
+    returns True if num is prime, else return False
+    """
+    # from my_function import isPrime
+    from math import sqrt
+    from itertools import count, islice
+    if num < 2: return False
+    for number in islice(count(2), int(sqrt(num)-1)):
+        if not num % number:
+            return False
+    return True
+
+def isnotPrime(num):
+    """
+    returns False if num is prime, else return True
+    """
+    # from my_function import isnotPrime
+    from math import sqrt
+    from itertools import count, islice
+    if num < 2: return True
+    for number in islice(count(2), int(sqrt(num)-1)):
+        if not num % number:
+            return True
+    return False
