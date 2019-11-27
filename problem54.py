@@ -1,27 +1,8 @@
-import collections
-
-Card = collections.namedtuple('Card', ['rank', 'suit'])
-
-class FrenchDeck:
-
-    ranks = [str(n) for n in range(2, 10)] + list('TJQKA')
-    suits = 'C H S D'.split() #spades diamonds club hearts
-
-    def __init__(self):
-        self._cards = [Card(rank, suit) for suit in self.suits
-                                       for rank in self.ranks]
-    def __len__(self):
-        return len(self._cards)
-
-    def __getitem__(self, position):
-        return self._cards[position]
-
-suit_values = dict(C=3, H=2, S=1, D=0)
-
-def spades_high(card):
-    rank_value = FrenchDeck.ranks.index(card.rank)
-    return rank_value * len(suit_values) + suit_values[card.suit]
-
+#https://projecteuler.net/problem=54
+"""
+There is a deliberate logical error in the code. 
+Do you understand Python for a long time to find her
+"""
 def compare_card(card_array):
     combin_weight = dict(
                 royal_flush=    9000,
@@ -32,11 +13,11 @@ def compare_card(card_array):
                 straight=       4000,
                 three=          3000,
                 two_pairs=      2000,
-                one_pair=       1000,
-                high_card=         0
+                one_pair=       1000
+                # high_card=         0
                             )
     card_weight = '23456789TJQKA'
-    suit_weight = 'SCHD'
+    suit_weight = 'SCDH'
     cards = [
                 card_array[0][0],
                 card_array[1][0],
@@ -52,20 +33,25 @@ def compare_card(card_array):
                 card_array[3][1],
                 card_array[4][1]
             ]
+    #sorted cards
+    sorted_cards = sorted(cards, key=card_weight.index)
+    #count how many identical cards 
+    count_cards = [cards.count(i) for i in cards]
 
-    tmp_cards = sorted(cards, key=card_weight.index)
-    #check royal_flush
-    if tmp_cards == ['T', 'J', 'Q', 'K', 'A'] and suits.count(suits[0]) == 5:
+    #checking for cards going in a row 
+    #(royal-flach, straight-flush, straight)
+    if sorted_cards == list(card_weight[card_weight.index(sorted_cards[0]):
+        card_weight.index(sorted_cards[0])+5]):
 
-        full_weight = combin_weight['royal_flush']\
-                    + suit_weight.index(suits[0])
-    # print(sorted(cards, key=card_weight.index))
-    
-    #checking for cards going in a row (straight and straight-flash)
-    elif tmp_cards == card_weight[card_weight.index(tmp_cards[0]):card_weight.index(tmp_cards[0])+6]:
+        #check royal_flush
+        if sorted_cards[4] == 'A' and suits.count(suits[0]) == 5:
 
-        #straight-flash
-        if suits.count(suits[0]) == 5:
+            full_weight = combin_weight['royal_flush']\
+                        + suit_weight.index(suits[0])
+
+        
+        #straight-flush
+        elif suits.count(suits[0]) == 5:
 
             full_weight = combin_weight['straight_flush']\
             + card_weight.index(cards[4])*10\
@@ -74,24 +60,51 @@ def compare_card(card_array):
         else:
 
             full_weight = combin_weight['straight']\
-            + card_weight.index(tmp_cards[4])*10\
-            + suit_weight.index(suits[cards.index(tmp_cards[4])])
+            + card_weight.index(sorted_cards[4])*10\
+            + suit_weight.index(suits[cards.index(sorted_cards[4])])
     #check flush
     elif suits.count(suits[0]) == 5:
         full_weight = combin_weight['flush']\
-                    + card_weight.index(tmp_cards[4])*10\
+                    + card_weight.index(sorted_cards[4])*10\
                     + suit_weight.index(suits[0])
-    #count how many identical cards 
-    count_cards = [cards.count(i) for i in cards]
 
     #check four
-    if 4 in count_cards:
+    elif 4 in count_cards:
         full_weight = combin_weight['four']\
                     + card_weight.index(cards[count_cards.index(4)])*10
-
- 
-
-    # return full_weight
+    #check full house
+    elif 3 in count_cards and 2 in count_cards:
+        full_weight = combin_weight['full_house']\
+                    + card_weight.index(cards[count_cards.index(3)])*10
+    #check three
+    elif 3 in count_cards:
+        full_weight = combin_weight['three']\
+                    + card_weight.index(cards[count_cards.index(3)])*10
+    #check two pair
+    elif 2 in count_cards:
+        if count_cards.count(2) == 4:
+            full_weight = combin_weight['two_pairs']\
+                        + (card_weight.index(sorted_cards[3])\
+                        + card_weight.index(sorted_cards[1])/10)*10
+    #check one pair
+        elif count_cards.count(2) == 2:
+            if sorted_cards.index(cards[count_cards.index(2)]) == 3:
+                high_card_pair_index = 2
+            else:
+                high_card_pair_index = 4
+            full_weight = combin_weight['one_pair']\
+                    + card_weight.index(cards[count_cards.index(2)])*10\
+                    + card_weight.index(sorted_cards[high_card_pair_index])/10
+                    #only 1 highest card will be checked after a pair to
+                    #compare identical pairs
+    #high card
+    else:
+        full_weight = card_weight.index(sorted_cards[0])\
+                    + card_weight.index(sorted_cards[1])/10\
+                    + card_weight.index(sorted_cards[2])/100\
+                    + card_weight.index(sorted_cards[3])/1000
+         
+    return full_weight
 
 array = []
 with open("p054_poker.txt") as file:
@@ -101,11 +114,9 @@ with open("p054_poker.txt") as file:
 result = 0
 
 for item in array:
-    tmp_suit = item.split()
+    tmp_array = item.split()
 
-    if compare_card(tmp_suit[:5]) > compare_card(tmp_suit[5:]):
+    if compare_card(tmp_array[:5]) > compare_card(tmp_array[5:]):
         result += 1
 
-
-
-print(tmp_suit)
+print('Result of the problem 54:', result)
